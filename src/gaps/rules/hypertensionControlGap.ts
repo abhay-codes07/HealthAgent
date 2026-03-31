@@ -69,6 +69,6 @@ export function detectHypertensionControlGap(
         severity: systolicValue >= 160 ? 'high' : 'medium',
         description: `Patient with hypertension has uncontrolled blood pressure (${bpStr} mmHg, systolic >${SYSTOLIC_THRESHOLD}). HEDIS Controlling High Blood Pressure (CBP) measure target: <140/90 mmHg.`,
         lastRelevantDate: latestBP.effectiveDateTime || undefined,
-        recommendation: `Review antihypertensive medication regimen. Consider dose adjustment or additional agent. Schedule follow-up BP check in 2–4 weeks. Counsel on sodium restriction, exercise, and weight management.`,
+        recommendation: `Review antihypertensive medication regimen. Consider dose adjustment or additional agent. Schedule follow-up BP check in 2-4 weeks. Counsel on sodium restriction, exercise, and weight management.`,
     };
 }

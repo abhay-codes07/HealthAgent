@@ -11,7 +11,7 @@ import { detectCareGaps, severityEmoji } from './gaps/detector';
 import { analyzePatient } from './ai/analyzer';
 import { PatientSummary, AIAnalysis, CareGap } from './fhir/types';
 
-// ── Formatting Helpers ──────────────────────────────────────────────────────
+// -- Formatting Helpers (ASCII-safe for Windows PowerShell) ------------------
 
 function getPatientName(summary: PatientSummary): string {
     const name = summary.patient.name?.[0];
@@ -28,23 +28,32 @@ function getPatientAge(summary: PatientSummary): number | string {
     );
 }
 
-function printDivider(char = '═', len = 80): void {
+function printDivider(char = '=', len = 78): void {
     console.log(char.repeat(len));
 }
 
 function printHeader(text: string): void {
     console.log();
-    printDivider('═');
+    printDivider('=');
     console.log(`  ${text}`);
-    printDivider('═');
+    printDivider('=');
 }
 
 function printSubHeader(text: string): void {
     console.log();
-    console.log(`  ── ${text} ${'─'.repeat(Math.max(0, 70 - text.length))}`);
+    console.log(`  -- ${text} ${'-'.repeat(Math.max(0, 68 - text.length))}`);
 }
 
-// ── Main Demo ───────────────────────────────────────────────────────────────
+function severityTag(severity: string): string {
+    switch (severity) {
+        case 'high': return '[!!!HIGH]';
+        case 'medium': return '[ !MEDIUM]';
+        case 'low': return '[  LOW]';
+        default: return '[UNKNOWN]';
+    }
+}
+
+// -- Main Demo ---------------------------------------------------------------
 
 interface DemoResult {
     name: string;
@@ -57,10 +66,10 @@ interface DemoResult {
 
 async function runDemo(): Promise<void> {
     console.log(`
-  ╔══════════════════════════════════════════════════════════════╗
-  ║        🏥  CareGap Intelligence Agent — Demo               ║
-  ║        AI-Powered Care Gap Detection & Patient Outreach     ║
-  ╚══════════════════════════════════════════════════════════════╝
+  +============================================================+
+  |     CareGap Intelligence Agent -- Demo                     |
+  |     AI-Powered Care Gap Detection & Patient Outreach       |
+  +============================================================+
   `);
 
     const patients = loadAllPatients();
@@ -82,15 +91,15 @@ async function runDemo(): Promise<void> {
         summary.careGaps = gaps;
 
         if (gaps.length === 0) {
-            console.log('  ✅ No care gaps detected');
+            console.log('  [OK] No care gaps detected');
         } else {
             for (const gap of gaps) {
-                console.log(`  ${severityEmoji(gap.severity)} [${gap.severity.toUpperCase()}] ${gap.type}`);
+                console.log(`  ${severityTag(gap.severity)} ${gap.type}`);
                 console.log(`     ${gap.description}`);
                 if (gap.lastRelevantDate) {
                     console.log(`     Last relevant date: ${gap.lastRelevantDate}`);
                 }
-                console.log(`     → ${gap.recommendation}`);
+                console.log(`     -> ${gap.recommendation}`);
                 console.log();
             }
         }
@@ -102,13 +111,13 @@ async function runDemo(): Promise<void> {
         try {
             analysis = await analyzePatient(summary, gaps);
 
-            console.log(`  🎯 Urgency Score: ${analysis.urgencyScore}/10\n`);
+            console.log(`  URGENCY SCORE: ${analysis.urgencyScore}/10\n`);
 
             // Prioritized Gaps
             if (analysis.prioritizedGaps.length > 0) {
-                console.log('  📋 Prioritized Gaps with Clinical Rationale:');
+                console.log('  PRIORITIZED GAPS with Clinical Rationale:');
                 for (const pg of analysis.prioritizedGaps) {
-                    console.log(`     • [${pg.severity}] ${pg.type}`);
+                    console.log(`     * [${pg.severity}] ${pg.type}`);
                     console.log(`       ${pg.clinicalRationale}`);
                     console.log();
                 }
@@ -127,11 +136,11 @@ async function runDemo(): Promise<void> {
             for (const action of analysis.suggestedActions) {
                 const icon =
                     action.assignee === 'patient'
-                        ? '👤'
+                        ? '[PATIENT]'
                         : action.assignee === 'provider'
-                            ? '👨‍⚕️'
-                            : '📅';
-                console.log(`  ${icon} [${action.assignee}] ${action.action}`);
+                            ? '[PROVIDER]'
+                            : '[SCHEDULER]';
+                console.log(`  ${icon} ${action.action}`);
                 console.log(`     Timeframe: ${action.timeframe}`);
             }
 
@@ -145,7 +154,7 @@ async function runDemo(): Promise<void> {
             });
         } catch (error) {
             const errMsg = error instanceof Error ? error.message : String(error);
-            console.log(`  ⚠️  AI analysis skipped: ${errMsg}`);
+            console.log(`  [WARN] AI analysis skipped: ${errMsg}`);
             results.push({
                 name,
                 age,
@@ -157,17 +166,17 @@ async function runDemo(): Promise<void> {
         }
     }
 
-    // ── Summary Table ───────────────────────────────────────────────────────
+    // -- Summary Table ---------------------------------------------------------
     printHeader('Summary Report');
     console.log();
     console.log(
-        '  ┌──────────────────────────┬─────┬────────┬──────┬─────────┐'
+        '  +--------------------------+-----+--------+------+---------+'
     );
     console.log(
-        '  │ Patient                  │ Age │ Gender │ Gaps │ Urgency │'
+        '  | Patient                  | Age | Gender | Gaps | Urgency |'
     );
     console.log(
-        '  ├──────────────────────────┼─────┼────────┼──────┼─────────┤'
+        '  +--------------------------+-----+--------+------+---------+'
     );
     for (const r of results) {
         const nameCol = r.name.padEnd(24).substring(0, 24);
@@ -177,11 +186,11 @@ async function runDemo(): Promise<void> {
         const urgCol =
             r.urgencyScore > 0 ? `${r.urgencyScore}/10`.padStart(7) : '  N/A  ';
         console.log(
-            `  │ ${nameCol} │ ${ageCol} │ ${genCol} │ ${gapCol} │ ${urgCol} │`
+            `  | ${nameCol} | ${ageCol} | ${genCol} | ${gapCol} | ${urgCol} |`
         );
     }
     console.log(
-        '  └──────────────────────────┴─────┴────────┴──────┴─────────┘'
+        '  +--------------------------+-----+--------+------+---------+'
     );
 
     const totalGaps = results.reduce((s, r) => s + r.gapCount, 0);
@@ -198,7 +207,7 @@ async function runDemo(): Promise<void> {
     console.log(`\n  Total care gaps detected: ${totalGaps}`);
     console.log(`  Average urgency score: ${avgUrgency}`);
     console.log(
-        `\n  ✅ Demo complete. ${patients.length} patients analyzed.\n`
+        `\n  [OK] Demo complete. ${patients.length} patients analyzed.\n`
     );
 }
 

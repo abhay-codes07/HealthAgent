@@ -61,7 +61,7 @@ export function detectMammographyGap(
     return {
         type: 'MammographyGap',
         severity: 'high',
-        description: `Female patient aged ${age} has no mammography screening on record within the last ${MONTHS_THRESHOLD} months. HEDIS Breast Cancer Screening (BCS) measure requires biennial mammography for women 50–74.`,
+        description: `Female patient aged ${age} has no mammography screening on record within the last ${MONTHS_THRESHOLD} months. HEDIS Breast Cancer Screening (BCS) measure requires biennial mammography for women 50-74.`,
         lastRelevantDate: latestMammo?.effectiveDateTime || undefined,
         recommendation: `Schedule mammography screening immediately. Provide patient education on breast cancer screening importance and early detection benefits.`,
     };

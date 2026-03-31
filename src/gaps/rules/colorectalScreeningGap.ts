@@ -62,7 +62,7 @@ export function detectColorectalScreeningGap(
     return {
         type: 'ColorectalScreeningGap',
         severity: neverScreened ? 'high' : 'medium',
-        description: `Patient aged ${age} has ${neverScreened ? 'never had' : 'not had recent'} colorectal cancer screening. HEDIS Colorectal Cancer Screening (COL) measure requires annual FOBT or colonoscopy per guidelines for ages 45–75.`,
+        description: `Patient aged ${age} has ${neverScreened ? 'never had' : 'not had recent'} colorectal cancer screening. HEDIS Colorectal Cancer Screening (COL) measure requires annual FOBT or colonoscopy per guidelines for ages 45-75.`,
         lastRelevantDate: latestScreening?.effectiveDateTime || undefined,
         recommendation: `Schedule colorectal cancer screening. Discuss options: annual FOBT/FIT test, flexible sigmoidoscopy every 5 years, or colonoscopy every 10 years.`,
     };
