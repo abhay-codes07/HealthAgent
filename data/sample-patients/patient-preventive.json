@@ -1,0 +1,173 @@
+{
+    "resourceType": "Bundle",
+    "type": "collection",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:patient-preventive-001",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "patient-preventive-001",
+                "name": [
+                    {
+                        "use": "official",
+                        "family": "Johnson",
+                        "given": [
+                            "Sarah",
+                            "A"
+                        ]
+                    }
+                ],
+                "gender": "female",
+                "birthDate": "1973-11-22",
+                "address": [
+                    {
+                        "line": [
+                            "789 Oak Boulevard"
+                        ],
+                        "city": "Denver",
+                        "state": "CO",
+                        "postalCode": "80202"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "303-555-0198",
+                        "use": "home"
+                    },
+                    {
+                        "system": "email",
+                        "value": "sarah.johnson@email.com"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:obs-cholesterol-prev-001",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-cholesterol-prev-001",
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "laboratory"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "2093-3",
+                            "display": "Cholesterol [Mass/volume] in Serum or Plasma"
+                        }
+                    ],
+                    "text": "Total Cholesterol"
+                },
+                "subject": {
+                    "reference": "Patient/patient-preventive-001"
+                },
+                "effectiveDateTime": "2025-02-05",
+                "valueQuantity": {
+                    "value": 198,
+                    "unit": "mg/dL",
+                    "system": "http://unitsofmeasure.org",
+                    "code": "mg/dL"
+                }
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:obs-bp-prev-001",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "obs-bp-prev-001",
+                "status": "final",
+                "category": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                "code": "vital-signs"
+                            }
+                        ]
+                    }
+                ],
+                "code": {
+                    "coding": [
+                        {
+                            "system": "http://loinc.org",
+                            "code": "85354-9",
+                            "display": "Blood pressure panel"
+                        }
+                    ]
+                },
+                "subject": {
+                    "reference": "Patient/patient-preventive-001"
+                },
+                "effectiveDateTime": "2025-02-05",
+                "component": [
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "8480-6",
+                                    "display": "Systolic blood pressure"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 122,
+                            "unit": "mmHg",
+                            "system": "http://unitsofmeasure.org",
+                            "code": "mm[Hg]"
+                        }
+                    },
+                    {
+                        "code": {
+                            "coding": [
+                                {
+                                    "system": "http://loinc.org",
+                                    "code": "8462-4",
+                                    "display": "Diastolic blood pressure"
+                                }
+                            ]
+                        },
+                        "valueQuantity": {
+                            "value": 78,
+                            "unit": "mmHg",
+                            "system": "http://unitsofmeasure.org",
+                            "code": "mm[Hg]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "urn:uuid:imm-flu-prev-001",
+            "resource": {
+                "resourceType": "Immunization",
+                "id": "imm-flu-prev-001",
+                "status": "completed",
+                "vaccineCode": {
+                    "coding": [
+                        {
+                            "system": "http://hl7.org/fhir/sid/cvx",
+                            "code": "141",
+                            "display": "Influenza, seasonal, injectable"
+                        }
+                    ]
+                },
+                "patient": {
+                    "reference": "Patient/patient-preventive-001"
+                },
+                "occurrenceDateTime": "2025-10-15",
+                "primarySource": true
+            }
+        }
+    ]
+}

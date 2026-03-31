@@ -1,0 +1,34 @@
+{
+  "name": "caregap-intelligence-agent",
+  "version": "1.0.0",
+  "description": "CareGap Intelligence Agent — AI-powered care gap detection and patient outreach using FHIR R4 + Claude AI",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/agent/server.ts",
+    "demo": "ts-node src/demo.ts"
+  },
+  "keywords": [
+    "healthcare",
+    "fhir",
+    "hedis",
+    "care-gaps",
+    "ai",
+    "a2a",
+    "claude"
+  ],
+  "author": "abhay-codes07",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
