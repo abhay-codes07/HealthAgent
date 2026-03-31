@@ -1,3 +1,3 @@
-// AI Reasoning Layer — Placeholder
-// Implementation in Phase 3
-export { };
+// AI Reasoning Layer
+export { analyzePatient } from './analyzer';
+export { SYSTEM_PROMPT, buildUserPrompt } from './prompts';
